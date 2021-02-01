@@ -11,20 +11,22 @@ const createHallRow = (row) => {
         Row ${row}
     </div>  
   `;
-  let rowTemplate = rowContent;
+  let rowElements = [];
+  rowElements.push(rowContent);
 
   for (let place = 1; place <= HALL_PLACES; place++) {
-    rowTemplate += createHallPlace(row, place);
+    rowElements.push(createHallPlace(row, place));
   }
-  rowTemplate += rowContent;
+  rowElements.push(rowContent);
 
-  return rowTemplate;
+  return rowElements.join("\n");
 
 };
 
 
 const createHallPlace = (row, place) => {
   const placeId = `row-${row}-place-${place}`;
+  const inboxValue = `place-${row}-${place}`;
   const title = `Row: ${row}. Place:  ${place}. Price: $5`;
   const disabled = (row === 1) ? "disabled" : "";
 
@@ -33,6 +35,7 @@ const createHallPlace = (row, place) => {
         class="checkbox-input visually-hidden" 
         type="checkbox" 
         id="${placeId}" 
+        value="${inboxValue}"
         ${disabled}>
     <label 
         for="${placeId}"
@@ -46,13 +49,13 @@ const createHallPlace = (row, place) => {
 
 const generateHallSchema = () => {
   HALL_DIV.innerHTML = '';
-  let hallContent = '';
 
+  let hallRows = [];
   for (let row = 1; row <= HALL_ROWS; row++) {
-    hallContent += createHallRow(row);
+    hallRows.push(createHallRow(row));
   }
 
-  HALL_DIV.innerHTML = hallContent;
+  HALL_DIV.innerHTML = hallRows.join("\n");
 };
 
 
